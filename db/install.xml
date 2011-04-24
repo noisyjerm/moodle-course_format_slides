@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="course/format/jTopics/db" VERSION="20110204" COMMENT="XMLDB file for Moodle course/format/slides"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="format_slides" COMMENT="to define the sections for each course" NEXT="format_slides_modicons">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="topic_id"/>
+        <FIELD NAME="topic_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="course_id" NEXT="x_offset"/>
+		<FIELD NAME="x_offset" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="topic_id" NEXT="y_offset"/>
+		<FIELD NAME="y_offset" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="x_offset" NEXT="summaryimage"/>
+        <FIELD NAME="summaryimage" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="y_offset" NEXT="image_pos_x" />
+		<FIELD NAME="image_pos_x" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="summaryimage" NEXT="image_pos_y" />
+		<FIELD NAME="image_pos_y" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="image_pos_x"/>
+	  </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course_section" UNIQUE="false" FIELDS="course_id, topic_id"/>
+      </INDEXES>
+    </TABLE>
+	<TABLE NAME="format_slides_modicons" COMMENT="Allows for custom activity icons" PREVIOUS="format_slides">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="activity_id"/>
+        <FIELD NAME="activity_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="course_id" NEXT="icon_up"/>
+		<FIELD NAME="icon_up" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="activity_id" NEXT="icon_over"/>
+		<FIELD NAME="icon_over" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="icon_up" NEXT="icon_h"/>
+		<FIELD NAME="icon_h" TYPE="int" LENGTH="8" NOTNULL="false" SEQUENCE="false" PREVIOUS="icon_over" NEXT="icon_w"/>
+        <FIELD NAME="icon_w" TYPE="int" LENGTH="8" NOTNULL="false" SEQUENCE="false" PREVIOUS="icon_h"/>
+	  </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course_id" NEXT="activity"/>
+		<INDEX NAME="activity" UNIQUE="false" FIELDS="activity_id" PREVIOUS="course"/>
+      </INDEXES>
+    </TABLE>
+	
+  </TABLES>
+</XMLDB>
