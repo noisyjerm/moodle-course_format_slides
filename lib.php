@@ -499,8 +499,11 @@ function slides_make_outline($course,$topics_info,$sections,$editing){
 
 function hook_show_activity_intro($mod){
 	global $DB;
-	
+	try {
 	$intro = $DB->get_field($mod->modname, 'intro', array('id'=>$mod->instance));
+	} catch(Exception $err) {
+		$intro = "";
+	}
 	echo "<div class='mod-intro'>$intro</div>";
 }
 

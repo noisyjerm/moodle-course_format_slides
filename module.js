@@ -97,7 +97,7 @@ M.format_slides = {
 				    	   
 				    	// Add move-handle for drag and drop.
 				    	   // TODO: fix the image ref
-				    	    var handle = Y.Node.create('<img hspace="3" src="http://jerm.local/cmss/moodle-2/theme/image.php?theme=universite&amp;amp;image=i%2Fmove_2d&amp;amp;rev=170" alt="Move" class="iconsmall">')
+				    	    var handle = Y.Node.create('<img hspace="3" src="../theme/image.php?image=i%2Fmove_2d&amp;amp;rev=170" alt="Move" class="iconsmall">')
 				    	    v.one("a.editing_move").replace(handle);
 				       });
 				    });
@@ -417,7 +417,7 @@ M.format_slides = {
             drags.each(function(v,k){
 	    	    // Add move-handle for drag and drop.
 	    	    // TODO: fix the image ref
-	    	    var handle = Y.Node.create('<img hspace="3" src="http://localhost/cmss/moodle-2/theme/image.php?theme=universite&amp;amp;image=i%2Fmove_2d&amp;amp;rev=170" alt="Move" class="iconsmall handle">')
+	    	    var handle = Y.Node.create('<img hspace="3" src="../theme/image.php?image=i%2Fmove_2d&amp;amp;rev=170" alt="Move" class="iconsmall handle">')
 	    	    v.one("a.editing_move").replace(handle);
             });
         

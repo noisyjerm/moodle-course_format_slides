@@ -1,0 +1,9 @@
+Alternative display of Moodle course. Uses YUI3 Library included with Moodle.
+ - Shows one topic/section at a time.
+ - Animates between topics
+ - loads each topic / section asynchronously (theoretically reducing percieved load time)
+ - Adds option for background image
+ - Adds option for custom activity icons
+ - Includes a topics outline list with completion
+ 
+ NOT READY FOR PRODUCTION

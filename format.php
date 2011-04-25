@@ -16,6 +16,7 @@
 /* TODO: 
  * backup and restore
  * check no hard-coded strings
+ * optional 1 or 2 columns
  * improve completion status
  * comments
  * readme

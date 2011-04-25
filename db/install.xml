@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="course/format/jTopics/db" VERSION="20110204" COMMENT="XMLDB file for Moodle course/format/slides"
+<XMLDB PATH="course/format/slides/db" VERSION="20110408" COMMENT="XMLDB file for Moodle course/format/slides"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -11,15 +11,17 @@
         <FIELD NAME="topic_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="course_id" NEXT="x_offset"/>
 		<FIELD NAME="x_offset" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="topic_id" NEXT="y_offset"/>
 		<FIELD NAME="y_offset" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="x_offset" NEXT="summaryimage"/>
-        <FIELD NAME="summaryimage" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="y_offset" NEXT="image_pos_x" />
-		<FIELD NAME="image_pos_x" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="summaryimage" NEXT="image_pos_y" />
-		<FIELD NAME="image_pos_y" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="image_pos_x"/>
+        <FIELD NAME="summaryimage" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="y_offset" NEXT="image_pos_x"/>
+		<FIELD NAME="image_pos_x" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="summaryimage" NEXT="image_pos_y"/>
+		<FIELD NAME="image_pos_y" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="image_pos_x" NEXT="layout_columns"/>
+		<FIELD NAME="layout_columns" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="2" SEQUENCE="false" PREVIOUS="image_pos_y"/>
 	  </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="course_section" UNIQUE="false" FIELDS="course_id, topic_id"/>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course_id" NEXT="section"/>
+		<INDEX NAME="section" UNIQUE="false" FIELDS="topic_id" PREVIOUS="course"/>
       </INDEXES>
     </TABLE>
 	<TABLE NAME="format_slides_modicons" COMMENT="Allows for custom activity icons" PREVIOUS="format_slides">
@@ -40,6 +42,5 @@
 		<INDEX NAME="activity" UNIQUE="false" FIELDS="activity_id" PREVIOUS="course"/>
       </INDEXES>
     </TABLE>
-	
   </TABLES>
 </XMLDB>

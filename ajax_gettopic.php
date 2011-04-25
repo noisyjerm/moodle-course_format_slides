@@ -12,13 +12,17 @@ $mode = optional_param('mode', 0, PARAM_INT);
 $isediting = $PAGE->user_is_editing() || $mode;
 $section = isset($section) ? $section : $topic;
 
+$streditsummary  = get_string('editsummary');
+$streditsettings  = get_string('editsettings', 'format_slides');
+
 if(!$course) {
 	if (! ($course = $DB->get_record('course', array('id'=>$id)))) {
 	    print_error('invalidcourseid', 'error');
 	}
 }
 if(!$context) $context = get_context_instance(CONTEXT_COURSE, $course->id);
-//require_capability('moodle/course:view', $context);
+
+require_capability('moodle/course:view', $context);
 
 if(!$sections) {
 	$thissection = $DB->get_record('course_sections', array('course'=>$course->id, 'section'=>$topic));
@@ -92,8 +96,8 @@ echo '<li id="section-'.$section.'" class="section main clearfix ui-widget-conte
                 echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
                      '<img src="'.$OUTPUT->pix_url('t/edit') . '" class="icon edit" alt="'.$streditsummary.'" /></a>';
                      
-                echo ' <a title="'.$streditsummary.'" href="format/slides/choose_background.php?id='.$thissection->id.'">'.
-                     '<img src="format/slides/pix/i/icon.png" class="icon edit" alt="'.$streditsummary.'" /></a>';
+                echo ' <a title="'.$streditsettings.'" href="format/slides/choose_background.php?id='.$thissection->id.'">'.
+                     '<img src="format/slides/pix/i/icon.png" class="icon edit" alt="'.$streditsettings.'" /></a>';
             }
             
 	    		if ($thissection->summary) {
@@ -118,5 +122,3 @@ echo '<li id="section-'.$section.'" class="section main clearfix ui-widget-conte
 
         echo '</div>';
 echo "</li>\n";
-
-?>

@@ -58,30 +58,23 @@ if ($mform->is_cancelled()){
 
 } else if ($data = $mform->get_data()) {
 
-	if (empty($data->usedefaulticon)) {
-        // add the record
-        $fileid = file_get_submitted_draft_itemid('iconfile');
+        $fileid = file_get_submitted_draft_itemid('bgfile');
         $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
         file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $form_info->id, $imageoptions);
         // I would have thought file_postupdate_standard_filemanager would be better??
-        //$entry = file_postupdate_standard_filemanager($entry, 'iconfile', $imageoptions, $context, 'format_slides', 'section', $fileid);
+        //$entry = file_postupdate_standard_filemanager($entry, 'bgfile', $imageoptions, $context, 'format_slides', 'section', $fileid);
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'format_slides', 'section', $form_info->id, null, false);
-        foreach($files as $iconfile){
-        		$info = $iconfile->get_imageinfo();
-        		$entry->summaryimage = $iconfile->get_filename();
+        foreach($files as $bgfile){
+        		$info = $bgfile->get_imageinfo();
+        		$entry->summaryimage = $bgfile->get_filename();
         }
-    	
-    } else {
-        // remove the record
-        $entry->summaryimage = null;
-    }
-    /*
-    echo "<pre>";
-    print_r($entry);
-    echo "</pre>";
-	*/ 
-    // store the updated value values
+        
+        $entry->image_pos_x = $data->image_pos_x;
+        $entry->image_pos_y = $data->image_pos_y;
+        $entry->layout_columns = $data->layout_columns +1;
+        
+        // store the updated value values
     $DB->update_record('format_slides', $entry);
     redirect($CFG->wwwroot.'/course/view.php?id='.$course->id);
 }
