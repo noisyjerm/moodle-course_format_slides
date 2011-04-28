@@ -1,9 +1,15 @@
-Alternative display of Moodle course. Uses YUI3 Library included with Moodle.
+Alternative display of Moodle course. Uses YUI3 Library included with Moodle 2.0
  - Shows one topic/section at a time.
  - Animates between topics
- - loads each topic / section asynchronously (theoretically reducing percieved load time)
+ - loads each topic / section asynchronously (theoretically reducing perceived load time)
  - Adds option for background image
  - Adds option for custom activity icons
  - Includes a topics outline list with completion
  
+ INSTALLATION
+ Add the code to a directory called 'slides' in /course/format. So this file would be /course/format/slides/README
+ Browse to notifications /admin/index.php to update the database
+   2 new tables will be added
+ 
  NOT READY FOR PRODUCTION
+ So far tested only on Firefox 3
