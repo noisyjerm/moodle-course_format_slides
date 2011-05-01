@@ -25,19 +25,24 @@ function xmldb_format_slides_upgrade($oldversion) {
     
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2011040800) {
+    if ($oldversion < 2011043000) {
 
     /// Add Background positon-x and position-y fields
         $table = new xmldb_table('format_slides');
-        $field = new xmldb_field('layout_columns', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, "2", 'image_pos_y');
+        $field1 = new xmldb_field('image_pos_x', XMLDB_TYPE_TEXT);
+        $field2 = new xmldb_field('image_pos_y', XMLDB_TYPE_TEXT);
 
-        // Conditionally add fields
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
+        // Conditionally change fields
+        if ($dbman->field_exists($table, $field1)) {
+            rename_field($table, $field1, 'bg_position');
+        }
+        
+       if ($dbman->field_exists($table, $field2)) {
+            rename_field($table, $field2, 'height');
         }
 
         // slides savepoint reached
-        upgrade_plugin_savepoint(true, 2011040800, 'format_slides');
+        upgrade_plugin_savepoint(true, 2011043000, 'format_slides');
     }
 
    

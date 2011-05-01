@@ -3,10 +3,10 @@
 #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
 #page-content .course-content ul.topics li.section .left    { width:0; }
 
-.jumpmenu {text-align:center;}
 
-/* slides specific */
-div.summary {
+
+/* slides two col */
+div.summary.cols-2 {
 	float:left;
 	width:220px;
 }
@@ -114,7 +114,7 @@ li.resource.moving {
 	filter:[opacity(30)];
 }
 
-li.section div.content ul.section.img-text {
+li.section.cols-2 div.content ul.section.img-text {
 	/* having to override current theme. */
 	margin-left:230px !important;
 }
@@ -148,5 +148,13 @@ li.activity.yui3-dd-drop-over {
 }
 
 #page-content .course-content ul.topics li.section {
-	min-height:400px;
+	/* min-height:400px; */
+}
+
+
+/* FORM STYLES */
+
+.mform .pos-gp .fitem fieldset.felement {
+	margin-left:16%;
+	height:0.5em;
 }

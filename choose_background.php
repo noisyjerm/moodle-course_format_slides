@@ -44,12 +44,13 @@ $entry = $DB->get_record('format_slides', array('topic_id'=>$section_id, 'course
 if(empty($entry->id)){
 	echo "not a good sign";
 }
-$entry = file_prepare_standard_filemanager($entry, 'custom_icon', $imageoptions, $context, 'format_slides', 'section', $form_info->id);
 
-$form_info = new object();
-$form_info->id = $section_id;
+$draftitemid = file_get_submitted_draft_itemid('summaryimage');
+file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'section', $entry->id, $imageoptions);
+$entry->summaryimage = $draftitemid;
+
 $mform = new chooseicon_form(null, array('course'=>$course));
-$mform->set_data($form_info); // set current value
+$mform->set_data($entry); // set current value
 
 
 /// If data submitted, then process and store.
@@ -57,24 +58,36 @@ if ($mform->is_cancelled()){
     redirect($CFG->wwwroot.'/course/view.php?id='.$course->id);
 
 } else if ($data = $mform->get_data()) {
-
-        $fileid = file_get_submitted_draft_itemid('bgfile');
-        $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
-        file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $form_info->id, $imageoptions);
-        // I would have thought file_postupdate_standard_filemanager would be better??
-        //$entry = file_postupdate_standard_filemanager($entry, 'bgfile', $imageoptions, $context, 'format_slides', 'section', $fileid);
+	
+	$filename = $mform->get_new_filename('summaryimage');
+	
+    if ($filename !== false) {
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'format_slides', 'section', $form_info->id, null, false);
-        foreach($files as $bgfile){
-        		$info = $bgfile->get_imageinfo();
-        		$entry->summaryimage = $bgfile->get_filename();
-        }
+        $fs->delete_area_files($context->id, 'format_slides', 'section');
+        $mform->save_stored_file('summaryimage', $context->id, 'format_slides', 'section', $entry->id, '/', $filename);
+        $entry->summaryimage = $filename;
+    } else {
+    	$entry->summaryimage = null;
+    }
         
-        $entry->image_pos_x = $data->image_pos_x;
-        $entry->image_pos_y = $data->image_pos_y;
-        $entry->layout_columns = $data->layout_columns +1;
-        
-        // store the updated value values
+	/*
+    $fileid = file_get_submitted_draft_itemid('summaryimage');
+    $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
+    file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $entry->id, $imageoptions);
+    
+    $fs = get_file_storage();
+    $files = $fs->get_area_files($context->id, 'format_slides', 'section', $entry->id, null, false);
+    foreach($files as $summaryimage){
+    		$info = $summaryimage->get_imageinfo();
+    		$entry->summaryimage = $summaryimage->get_filename();
+    }
+    */
+	
+    $entry->bg_position = $data->bg_position;
+    $entry->height = $data->height;
+    $entry->layout_columns = $data->layout_columns;
+    
+    // store the updated value values
     $DB->update_record('format_slides', $entry);
     redirect($CFG->wwwroot.'/course/view.php?id='.$course->id);
 }

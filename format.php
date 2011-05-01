@@ -16,9 +16,8 @@
 /* TODO: 
  * backup and restore
  * check no hard-coded strings
- * optional 1 or 2 columns
  * improve completion status
- * comments
+ * commented code
  * readme
  * refactor 
  */
@@ -79,7 +78,7 @@ $completioninfo->print_help_icon();
 
 //echo $OUTPUT->heading(get_string('topicoutline'), 2, 'headingblock header outline');
 // TODO: make css xbrowser
-$topics_info = $DB->get_records('format_slides', array('course_id'=>$course->id), '', 'topic_id, x_offset, y_offset, summaryimage');
+$topics_info = $DB->get_records('format_slides', array('course_id'=>$course->id), '', 'topic_id, x_offset, y_offset, summaryimage, bg_position, height');
 $custom_icons = $DB->get_records("format_slides_modicons", array('course_id'=>$course->id));
 
 // update db to create topics outline
@@ -103,8 +102,11 @@ echo "<style type='text/css'>\n";
 	foreach($sections as $section){
 		 $topic = $topics_info[$section->id];
 		 $bg_image = $CFG->wwwroot."/pluginfile.php/" .$context->id . "/format_slides/section/" . $section->id . "/" . $topic->summaryimage;
+		 $bg_pos = isset($topic->bg_position) ? $topic->bg_position : "top left";
+		 $height = isset($topic->height) ? $topic->height ."px": "auto";
+		 
 		 if(!empty($topic->summaryimage)) {
-		     echo "\t" . "li#section-" . $section->section . " {  background:url(" .$bg_image . ") no-repeat bottom left;}" . "\n" ;
+		     echo "\t" . "li#section-" . $section->section . " {  background:url(" .$bg_image . ") no-repeat " . $bg_pos . "; height:" . $height . ";}" . "\n" ;
 		 }
 		 // Match outline to intro
 	     if($section->section == 0 && !empty($topic->summaryimage)) {

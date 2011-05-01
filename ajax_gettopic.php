@@ -24,16 +24,21 @@ if(!$context) $context = get_context_instance(CONTEXT_COURSE, $course->id);
 
 require_capability('moodle/course:view', $context);
 
+// 
+
 if(!$sections) {
 	$thissection = $DB->get_record('course_sections', array('course'=>$course->id, 'section'=>$topic));
 } else {
 	$thissection = $sections[$section];
 }
 
+$numcolumns = $DB->get_record('format_slides', array('course_id'=>$course->id, 'topic_id'=>$thissection->id), 'layout_columns');
+
 //$modinfo =& get_fast_modinfo($COURSE);
 get_all_mods($course->id, $mods, $modnames, $modnamesplural, $modnamesused);
     
 $sectionstyle = !$thissection->visible ? ' hidden' : ($course->marker == $section ? ' current' : '');
+$sectionstyle .= " cols-" . $numcolumns->layout_columns;
 $showsection = (has_capability('moodle/course:viewhiddensections', $context) or $thissection->visible or !$course->hiddensections);
         
 if (!$showsection) return;

@@ -13,3 +13,16 @@ Alternative display of Moodle course. Uses YUI3 Library included with Moodle 2.0
  
  NOT READY FOR PRODUCTION
  So far tested only on Firefox 3
+
+ TESTING
+ 					Layout	Javascript
+ Firefox 3.6.16		y		y
+ Firefox 4.0		y		y
+ Opera 11.10		y		y
+ Safari 5.05		y		n
+ 
+ ISSUES
+ Does not work with Moodle debugging set to Developer.
+ 
+ TODO
+ See format.php

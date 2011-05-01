@@ -29,19 +29,25 @@ $string['section0name'] = 'Intro';
 $string['activityusedefaulticon'] = 'Use default icon';
 $string['icons'] = 'Icons';
 $string['icons_help'] = 'The first image selected will be the image displayed for the "up state". The second image [optional] is displayed when the user moves the cursor over the link. Make sure both images are the same size. 50px by 50px gives good results';
-$string['bg_help'] = 'Select an image to be used as the background for this topic';
 $string['changeiconof'] = 'Change the icon of {$a}';
 $string['changebgfor'] = 'Change the background image for {$a}';
-$string['bgimage'] = 'Image';
 $string['editsettings'] = 'Edit settings';
-$string['xpos'] = 'Position horizontal';
-$string['ypos'] = 'Position vertial';
 $string['bg'] = 'Background';
-$string['ypos_help'] = "One of 'top' | 'center' | 'bottom' | number (px)";
-$string['xpos_help'] = "One of 'left' | 'center' | 'right' | number (px)";
+$string['bg_help'] = 'Select an image to be used as the background for this topic. Deselect the checkbox above to use no image.';
+$string['bgimage'] = 'Image';
+$string['usebgimage'] = 'Use bg image';
+$string['pos'] = 'Position';
+$string['pos_help'] = "Choose the alignment of the background image";
 $string['layout'] = 'Layout';
-$string['onecolumn'] = 'One column';
-$string['twocolumns'] = 'Two columns';
+$string['columns'] = 'Columns';
+$string['one'] = 'One';
+$string['two'] = 'Two';
+$string['height'] = 'Height';
+$string['height_help'] = 'Force the height of the box. Enter the number in pixels';
+$string['height_error'] = 'Enter numbers only';
+
+
+
 
 $string['outline'] = "Outline";
 $string['intro'] = "Intro";
