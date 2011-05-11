@@ -1,4 +1,15 @@
 <?php
+/**
+ * Ajax Get Topic
+ * 
+ * Renders an individual topic also known as section
+ * @author Jeremy FitzPatrick
+ * @copyright (C) 2011 Jeremy FitzPatrick
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package slides
+ * @category course
+ */
+
 // need to get moodle root as this can be included or standalone
 $root_path = str_replace("course/format/slides", "", dirname(__FILE__));
 require_once($root_path . "config.php");
@@ -22,9 +33,8 @@ if(!$course) {
 }
 if(!$context) $context = get_context_instance(CONTEXT_COURSE, $course->id);
 
-require_capability('moodle/course:view', $context);
-
-// 
+// require_capability('moodle/course:view', $context);
+require_login() ;
 
 if(!$sections) {
 	$thissection = $DB->get_record('course_sections', array('course'=>$course->id, 'section'=>$topic));
@@ -34,7 +44,6 @@ if(!$sections) {
 
 $numcolumns = $DB->get_record('format_slides', array('course_id'=>$course->id, 'topic_id'=>$thissection->id), 'layout_columns');
 
-//$modinfo =& get_fast_modinfo($COURSE);
 get_all_mods($course->id, $mods, $modnames, $modnamesplural, $modnamesused);
     
 $sectionstyle = !$thissection->visible ? ' hidden' : ($course->marker == $section ? ' current' : '');
@@ -76,12 +85,6 @@ echo '<li id="section-'.$section.'" class="section main clearfix ui-widget-conte
       echo '</div>' . "\n";
 	  
       
-      /*
-       * SUMMARY
-       */
-     // echo '<div class="left side">&nbsp;</div>' . "\n";
-     // echo '<div class="right side"></div>' . "\n";
-      
      /*
       * CONTENT
       */
@@ -101,7 +104,7 @@ echo '<li id="section-'.$section.'" class="section main clearfix ui-widget-conte
                 echo ' <a title="'.$streditsummary.'" href="editsection.php?id='.$thissection->id.'">'.
                      '<img src="'.$OUTPUT->pix_url('t/edit') . '" class="icon edit" alt="'.$streditsummary.'" /></a>';
                      
-                echo ' <a title="'.$streditsettings.'" href="format/slides/choose_background.php?id='.$thissection->id.'">'.
+                echo ' <a title="'.$streditsettings.'" href="format/slides/choose_background.php?topic='.$thissection->id.'">'.
                      '<img src="format/slides/pix/i/icon.png" class="icon edit" alt="'.$streditsettings.'" /></a>';
             }
             

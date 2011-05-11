@@ -1,4 +1,16 @@
 <?php
+/**
+ * Ajax Section Actions
+ * 
+ * Performs backend functions for course topic/section editing
+ * such as show/hide, highlight and move
+ * @author Jeremy FitzPatrick
+ * @copyright (C) 2011 Jeremy FitzPatrick
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package slides
+ * @category course
+ */
+
 require_once("../../../config.php");
 require_once('../../lib.php');
 

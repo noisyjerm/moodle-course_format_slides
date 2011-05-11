@@ -1,4 +1,14 @@
 <?php
+/**
+ * Ajax Update Topic Positions
+ * 
+ * Performs backend functions for updating topic label positions in course outline
+ * @author Jeremy FitzPatrick
+ * @copyright (C) 2011 Jeremy FitzPatrick
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package slides
+ * @category course
+ */
 
 require_once("../../../config.php");
 //require_once("../../lib.php");

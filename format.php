@@ -1,25 +1,24 @@
 <?php
-
-// Display the whole course as "topics" made up of modules
-// Included from "view.php"
-
 /**
- * AJAX Javascript based topic display suitable for
- * a limited number of topics (<20)
+ * Slides format
  * 
- * @author noisyjerm@yahoo.com
+ * Main file of Slides Topic Format for Moodle 2.0+ included from /course/view.php
+ * Displays the whole course as "topics" made up of modules
+ * AJAX / dHTML based UI suitable for a limited number of topics (<20)
+ * @author Jeremy FitzPatrick
+ * @author N.D.Freear@open.ac.uk, and others.
  * @copyright (C) 2011 Jeremy FitzPatrick
- * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
- * Modified from Topics Format (C) 2006 The Open University
- */
-
-/* TODO: 
- * backup and restore
- * check no hard-coded strings
- * improve completion status
- * commented code
- * readme
- * refactor 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package slides
+ * @category course
+ * @todo 
+ *     backgrounds messed up until reload when moving topics around
+ *     backup and restore
+ *     check no hard-coded strings
+ *     improve completion status
+ *     comment code
+ *     readme
+ *     refactor 
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -139,6 +138,11 @@ echo "</style>\n\n";
 if(!$sections[$displaysection]->visible && !has_capability('moodle/course:viewhiddensections', $context)) $displaysection=0;
 
 // Navigation
+echo "<ul class='topics-nav'>";
+    echo '<li class="prev" href="#" title="'.$str_prev.'">'.$str_prev.'</li>';
+    echo '<li href="#" class="next" title="'.$str_next.'">'.$str_next.'</li>';
+echo "</ul>" . "\n";
+
 echo "<ul id='steps' class=\"topics-nav\">";
     $linkClass = $displaysection===0 ? " current" : "";
     echo '<li class="jump-to outline active" rel="section-outline" href="#" title="'.$str_outline.'">'.$str_outline.'</li>';
@@ -159,10 +163,7 @@ while ($section++ < $course->numsections) {
 }
 echo "</ul>" . "\n";
 
-echo "<ul class='topics-nav'>";
-	echo '<li class="prev" href="#" title="'.$str_prev.'">'.$str_prev.'</li>';
-	echo '<li href="#" class="next" title="'.$str_next.'">'.$str_next.'</li>';
-echo "</ul>" . "\n";
+
 
 // Note, an ordered list would confuse - "1" could be the clipboard or summary.
 echo "<ul class='topics'>\n";

@@ -1,15 +1,21 @@
 /* same as topics */
-#page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#EEE; border-color:#AAA;}
+#page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FFF; border-color:#AAA;}
 #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
 #page-content .course-content ul.topics li.section .left    { width:0; }
 
+#page-content .course-content ul.topics li.section.current {
+	border-color:#C00;
+}
 
 
 /* slides two col */
-div.summary.cols-2 {
-	float:left;
-	width:220px;
+#page-content .course-content ul.topics li.section.cols-2 div.summary { float:left; width:220px; }
+/*#page-content .course-content ul.topics li.section.cols-2 .content { margin: 0 220px 0 0; padding:10px; } */
+li.section.cols-2 div.content ul.section.img-text {
+    /* having to override current theme. */
+    margin-left:230px !important;
 }
+
 .left.side {
 	width:0;
 }
@@ -114,10 +120,7 @@ li.resource.moving {
 	filter:[opacity(30)];
 }
 
-li.section.cols-2 div.content ul.section.img-text {
-	/* having to override current theme. */
-	margin-left:230px !important;
-}
+
 ul.section li.movehere {
 	background: #DDD url(../course/format/slides/pix/leftright.gif) no-repeat left;
 }
@@ -146,11 +149,6 @@ li.activity.yui3-dd-drop-over {
 	height:300px;
 	display:none;
 }
-
-#page-content .course-content ul.topics li.section {
-	/* min-height:400px; */
-}
-
 
 /* FORM STYLES */
 

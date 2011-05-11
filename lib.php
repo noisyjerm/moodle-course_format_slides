@@ -512,7 +512,7 @@ function hook_make_edit_icon_button($mod){
 	$iconimage = $OUTPUT->pix_url('i/icon');
     
 	echo '<span class="commands">' .
-	         '<a href="format/slides/choose_modicon.php?id='.$mod->id.'&name='.$mod->name.'">' .
+	         '<a href="format/slides/choose_modicon.php?module='.$mod->id.'&name='.$mod->name.'">' .
 	              '<img src="format/slides/pix/i/icon.png" class="iconsmall" alt="" />' .
          '</a></span>';
 }

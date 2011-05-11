@@ -1,7 +1,8 @@
 /**
- * @author noisyjerm@yahoo.com
+ * @fileOverview ajax and dhtml functions for slides course format
+ * @author Jeremy FitzPatrick
  * @copyright (C) 2011 Jeremy FitzPatrick
- * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 M.format_slides = {
@@ -127,7 +128,7 @@ M.format_slides = {
 	    var _this = this;
 	    e.preventDefault();
 	    
-		this.Y.use('node', 'transition', 'cookie', 'sortable', function(Y){
+		this.Y.use('node', 'anim', 'sortable', function(Y){
 			if(!e.currentTarget.hasClass("active") || _this._sliding) return false;
 			
 		    // var dir = e.currentTarget.hasClass("prev") ? -1 : 1;
@@ -183,26 +184,27 @@ M.format_slides = {
 	    		
 	    		if(dir===-1) newVisibleTopic.setStyle("top", (5+h)*-1);
 	    		if(dir===1) _this._currentTopic.setStyle("top", (5+h)*-1);
-	    		
-	    		_this._currentTopic.transition({
-					left: (w+20)*dir,
-					duration : 1,
-					easing : 'ease-in'
-				}, function(){
-					_this._currentTopic.setStyle("display", "none");
+
+	    		var currentTopicOut = new Y.Anim({
+	    			node: _this._currentTopic,
+	    			to : { left:(w+20)*dir },
+	    			duration: 1
+	    		});
+	    		currentTopicOut.on('end', function(){
+	    			_this._sliding = false;
+	    			_this._currentTopic.setStyle("display", "none");
 					_this._currentTopic = newVisibleTopic;
-					Y.Cookie.set("userVisibleTopic", _this._currentTopicNum);
 					newVisibleTopic.setStyle("top", 0);
-					_this._sliding = false;
-				});
+	    		})
 	    		
+	    		var newTopicIn = new Y.Anim({
+	    			node: newVisibleTopic,
+	    			to : { left:0 },
+	    			duration: 1
+	    		});
+	    		currentTopicOut.run();
 	    		newVisibleTopic.setStyle("left", (w+20)*dir*-1);
-				
-				newVisibleTopic.transition({
-					left: 0,
-					duration:1,
-					easing: "ease-in"
-				});
+	    		newTopicIn.run();	    		
 		    }
 	    });
     },

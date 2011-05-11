@@ -1,4 +1,14 @@
 <?php
+/**
+ * Choose Background Form
+ * 
+ * Form for selecting topic background and layout
+ * @author Jeremy FitzPatrick
+ * @copyright (C) 2011 Jeremy FitzPatrick
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package slides
+ * @category course
+ */
 
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    ///  It must be included from a Moodle page
@@ -6,7 +16,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->libdir.'/formslib.php');
 
-class chooseicon_form extends moodleform {
+class choosebg_form extends moodleform {
 
     function definition() {
         global $CFG, $DB;
@@ -55,8 +65,8 @@ class chooseicon_form extends moodleform {
         $mform->addHelpButton('height', 'height',  'format_slides');
         $mform->setDefault('columns', 1);
         
-        $mform->addElement('hidden', 'id');
-        $mform->setType('id', PARAM_INT);
+        $mform->addElement('hidden', 'topic');
+        $mform->setType('topic', PARAM_INT);
 
 //--------------------------------------------------------------------------------
         $this->add_action_buttons();
@@ -66,9 +76,6 @@ class chooseicon_form extends moodleform {
     
     function set_data($default_values) {
         $default_values = (array)$default_values;
-
-        
-        
         $this->data_preprocessing($default_values);
         parent::set_data($default_values);
     }

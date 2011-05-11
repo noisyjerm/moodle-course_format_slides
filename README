@@ -12,14 +12,18 @@ Alternative display of Moodle course. Uses YUI3 Library included with Moodle 2.0
    2 new tables will be added
  
  NOT READY FOR PRODUCTION
- So far tested only on Firefox 3
+ 
 
- TESTING
- 					Layout	Javascript
+ TESTING SUMMARY
+ 					Layout	Animation
  Firefox 3.6.16		y		y
  Firefox 4.0		y		y
  Opera 11.10		y		y
- Safari 5.05		y		n
+ Safari 5.05		y		y
+ IE 6               ?       ?
+ IE 7               ?       ?
+ IE 8               ?       ?
+ IE 9               ?       ?
  
  ISSUES
  Does not work with Moodle debugging set to Developer.

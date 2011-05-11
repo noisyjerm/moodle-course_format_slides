@@ -1,26 +1,13 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Edit the introduction of a section
- *
- * @copyright 1999 Martin Dougiamas  http://dougiamas.com
+ * Choose Background
+ * 
+ * Page and actions for selecting topic background and layout
+ * @author Jeremy FitzPatrick
+ * @copyright (C) 2011 Jeremy FitzPatrick
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @package course
+ * @package slides
+ * @category course
  */
 
 require_once("../../../config.php");
@@ -28,28 +15,26 @@ require_once("../../lib.php");
 require_once($CFG->libdir.'/filelib.php');
 require_once('choose_background_form.php');
 
-$section_id = required_param('id',PARAM_INT);    // Activity ID
+$section_id = required_param('topic',PARAM_INT);    // Activity ID
 
 $section = $DB->get_record('course_sections', array('id' => $section_id), '*', MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $section->course), '*', MUST_EXIST);
 $sectionname = get_section_name($course, $section);
 
-require_login($course);
+//require_login($course);
 $context = get_context_instance(CONTEXT_COURSE, $course->id);
 require_capability('moodle/course:update', $context);
 
 $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
 $entry = $DB->get_record('format_slides', array('topic_id'=>$section_id, 'course_id'=>$course->id));
 
-if(empty($entry->id)){
-	echo "not a good sign";
-}
-
 $draftitemid = file_get_submitted_draft_itemid('summaryimage');
-file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'section', $entry->id, $imageoptions);
+file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'section', $section_id, $imageoptions);
 $entry->summaryimage = $draftitemid;
+$entry->topic = $section_id;
 
-$mform = new chooseicon_form(null, array('course'=>$course));
+
+$mform = new choosebg_form(null, array('course'=>$course));
 $mform->set_data($entry); // set current value
 
 
@@ -58,30 +43,13 @@ if ($mform->is_cancelled()){
     redirect($CFG->wwwroot.'/course/view.php?id='.$course->id);
 
 } else if ($data = $mform->get_data()) {
-	
-	$filename = $mform->get_new_filename('summaryimage');
-	
-    if ($filename !== false) {
-        $fs = get_file_storage();
-        $fs->delete_area_files($context->id, 'format_slides', 'section');
-        $mform->save_stored_file('summaryimage', $context->id, 'format_slides', 'section', $entry->id, '/', $filename);
-        $entry->summaryimage = $filename;
-    } else {
-    	$entry->summaryimage = null;
-    }
-        
-	/*
     $fileid = file_get_submitted_draft_itemid('summaryimage');
-    $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
-    file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $entry->id, $imageoptions);
-    
+    file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $section_id, $imageoptions);
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'format_slides', 'section', $entry->id, null, false);
-    foreach($files as $summaryimage){
-    		$info = $summaryimage->get_imageinfo();
-    		$entry->summaryimage = $summaryimage->get_filename();
-    }
-    */
+    $files = $fs->get_area_files($context->id, 'format_slides', 'section', $section_id, null, false);
+    
+    $first_file = current($files);
+    $entry->summaryimage = $first_file !== false ? $first_file->get_filename() : null;
 	
     $entry->bg_position = $data->bg_position;
     $entry->height = $data->height;
@@ -99,9 +67,8 @@ $strchangebgfor = get_string('changebgfor', 'format_slides', " $sectionname");
 $PAGE->set_title($stredit);
 $PAGE->set_heading($course->fullname);
 $PAGE->navbar->add($stredit);
+
 echo $OUTPUT->header();
-
 echo $OUTPUT->heading($strchangebgfor);
-
 $mform->display();
 echo $OUTPUT->footer();
