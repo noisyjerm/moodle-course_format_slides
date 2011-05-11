@@ -147,6 +147,12 @@ M.format_slides = {
 			    newVisibleTopic = Y.all("li.section").item(sectionPos);
 		    }
 		    
+		    // outline links
+		    if(e.currentTarget.hasClass("outline-link")) {
+		    	var sectionPos = e.currentTarget.ancestor("li").get("id").replace("topiclink", "");
+			    newVisibleTopic = Y.all("li.section").item(parseInt(sectionPos)+1);
+		    }
+		    
 		    // remember the section and do the transition
 		    if(newVisibleTopic){
 		    	_this._sliding = true;
@@ -403,7 +409,7 @@ M.format_slides = {
 		Y.all("ul.topics-nav li").on('click', this.changeTopic, this, true);
 		
 		// add links to outline
-		Y.all('#section-outline li a').on('click', this.changeTopic, this, true);
+		Y.all('#section--1 li a').addClass("active").on('click', this.changeTopic, this, true);
 		
 		/*
 		 * EDITING

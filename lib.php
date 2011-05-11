@@ -486,8 +486,8 @@ function slides_make_outline($course,$topics_info,$sections,$editing){
 	    $sectionname = !empty($section->name) ? $section->name : "Topic " . $section->section;
 	    $style = "left:" . $topics_info[$section->id]->x_offset . "; top:" .$topics_info[$section->id]->y_offset;
 	    $css = $editing ? "$section_complete editing" : "$section_complete";
-	    echo '<li class="'. $css . '" id="topiclink' . $section->id . '" style="' .$style . ';">';
-		echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section->section.'" title="'.$sectionname.'" class="ouline-link">' .$sectionname;
+	    echo '<li class="'. $css . '" id="topiclink' . $i . '" style="' .$style . ';">';
+		echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section->section.'" title="'.$sectionname.'" class="outline-link">' .$sectionname;
 	    echo "</a> $complete</li>\n";
 	}
 	
