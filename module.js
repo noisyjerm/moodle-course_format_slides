@@ -46,10 +46,18 @@ M.format_slides = {
 			function loadComplete(id, o, args) {
 				//sectionId, loadIndex
 				Y.detach("io:complete", loadComplete);
+				
 			    var newSection = Y.Node.create(o.responseText);
 			    var sections = container.all("li.section");
 			    var lastNode = sections.item(sections.size() -1);
-
+			    
+			    // needed for ie6 and 7
+			    Y.on("available", function(){
+			    	newSection.setStyle("display", "none");
+			    },args.sectionId);
+			    
+			  //  newSection.setStyle("display", "none");
+			    
 			    if(_this._loadedTopics[args.loadIndex] == true) { // exists so replace it
 			    	var oldSection = Y.one(args.sectionId);
 			    	oldSection.replace(newSection);
@@ -60,7 +68,6 @@ M.format_slides = {
 				    } else {
 				       container.append(newSection);
 				    }
-			    	newSection.setAttribute("style", "display:none;");
 
 			    	//	if(!newSection.hasClass("dimmed")){ // only for student
 				        var nav = Y.one("ul#steps li[rel=section-"+topic+"]");

@@ -1,5 +1,5 @@
 /* same as topics */
-#page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FFF; border-color:#AAA;}
+#page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FFF; border-color:#AAA; overflow:hidden; }
 #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
 #page-content .course-content ul.topics li.section .left    { width:0; }
 
