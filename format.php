@@ -13,7 +13,7 @@
  * @category course
  * @todo 
  *     backgrounds messed up until reload when moving topics around
- *     backup and restore
+ *     backup and restore and delete
  *     check no hard-coded strings
  *     improve completion status
  *     comment code
@@ -75,20 +75,19 @@ if ($editing) {
 $completioninfo = new completion_info($course);
 $completioninfo->print_help_icon();
 
-//echo $OUTPUT->heading(get_string('topicoutline'), 2, 'headingblock header outline');
-// TODO: make css xbrowser
 $topics_info = $DB->get_records('format_slides', array('course_id'=>$course->id), '', 'topic_id, x_offset, y_offset, summaryimage, bg_position, height');
 $custom_icons = $DB->get_records("format_slides_modicons", array('course_id'=>$course->id));
 
 // update db to create topics outline
+// Happens second visit @todo make it happen first time
 if($editing){
     for($i=count($topics_info); $i<count($sections); $i++){
-    	echo "add record " . $sections[$i]->id . "<br />";
+    	// echo "add record " . $sections[$i]->id . "<br />";
     	$topicobj = new stdClass;
         $topicobj->course_id  = $course->id;
         $topicobj->topic_id = $sections[$i]->id;
         $topicobj->x_offset = "0px";
-        $topicobj->y_offset = "0px";
+        $topicobj->y_offset = 33*$i."px";
         $topicobj->id = $DB->insert_record('format_slides', $topicobj);
         $topics_info[] = $topicobj;
     }
@@ -149,7 +148,19 @@ echo "<ul id='steps' class=\"topics-nav\">";
     echo '<li class="jump-to num'. $linkClass . '" rel="section-0" href="#" title="'.$str_intro.'">'.$str_intro.'</li>';
 $section=0;
 while ($section++ < $course->numsections) {
-    $thissection = $sections[$section];
+    if (!empty($sections[$section])) {
+        $thissection = $sections[$section];
+    } else {
+        $thissection = new stdClass;
+        $thissection->course  = $course->id;   // Create a new section structure
+        $thissection->section = $section;
+        $thissection->name    = null;
+        $thissection->summary  = '';
+        $thissection->summaryformat = FORMAT_HTML;
+        $thissection->visible  = 1;
+        $thissection->id = $DB->insert_record('course_sections', $thissection);
+    }
+    
 	$showsection = (has_capability('moodle/course:viewhiddensections', $context) or $thissection->visible or !$course->hiddensections);
 	if($showsection) {
 	    $title = isset($thissection->name) ? $thissection->name : $thissection->section;

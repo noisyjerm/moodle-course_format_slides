@@ -23,6 +23,9 @@ li.section.cols-2 div.content ul.section.img-text {
 div.left.summary img.icon.edit { float: right; margin:10px 0; }
 .mod-intro { padding-left:20px; }
 .mod-intro p { margin:0; }
+.activity.label .mod-intro { padding-left:0; }
+.activity.label .mod-intro p { margin:0 0 1em; }
+
 
 .course-content ul.topics li.section .right.controls {
 	float:right;

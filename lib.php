@@ -29,7 +29,7 @@ require_once($CFG->libdir.'/filelib.php');
  *
  * @return bool Returns true
  */
-function callback_topics_uses_sections() {
+function callback_slides_uses_sections() {
     return true;
 }
 
@@ -43,8 +43,8 @@ function callback_topics_uses_sections() {
  * @param stdClass $modinfo The mod info object for the current course
  * @return bool Returns true
  */
-function callback_topics_load_content(&$navigation, $course, $coursenode) {
-    return $navigation->load_generic_course_sections($course, $coursenode, 'topics');
+function callback_slides_load_content(&$navigation, $course, $coursenode) {
+    return $navigation->load_generic_course_sections($course, $coursenode, 'slides');
 }
 
 /**
@@ -53,7 +53,7 @@ function callback_topics_load_content(&$navigation, $course, $coursenode) {
  *
  * @return string
  */
-function callback_topics_definition() {
+function callback_slides_definition() {
     return get_string('topic');
 }
 
@@ -63,16 +63,16 @@ function callback_topics_definition() {
  *
  * @return string
  */
-function callback_topics_request_key() {
+function callback_slides_request_key() {
     return 'topic';
 }
 
-function callback_topics_get_section_name($course, $section) {
+function callback_slides_get_section_name($course, $section) {
     // We can't add a node without any text
     if (!empty($section->name)) {
         return $section->name;
     } else if ($section->section == 0) {
-        return get_string('section0name', 'format_topics');
+        return get_string('section0name', 'format_slides');
     } else {
         return get_string('topic').' '.$section->section;
     }
@@ -486,7 +486,7 @@ function slides_make_outline($course,$topics_info,$sections,$editing){
 	    $sectionname = !empty($section->name) ? $section->name : "Topic " . $section->section;
 	    $style = "left:" . $topics_info[$section->id]->x_offset . "; top:" .$topics_info[$section->id]->y_offset;
 	    $css = $editing ? "$section_complete editing" : "$section_complete";
-	    echo '<li class="'. $css . '" id="topiclink' . $i . '" style="' .$style . ';">';
+	    echo '<li class="'. $css . '" id="topiclink' . $section->id . '" style="' .$style . ';">';
 		echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section->section.'" title="'.$sectionname.'" class="outline-link">' .$sectionname;
 	    echo "</a> $complete</li>\n";
 	}
@@ -534,4 +534,10 @@ function format_slides_pluginfile($course, $cm, $context, $filearea, $args, $for
 	
 	exit;
 }
+
+function format_slides_delete_course($courseid) {
+	echo "Fail - slides format delete not implemented";
+	debugging("Not yet implemented. format_slides tables will not be chnaged", DEBUG_ALL);
+}
+
 

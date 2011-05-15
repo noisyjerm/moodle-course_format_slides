@@ -20,9 +20,10 @@ Alternative display of Moodle course. Uses YUI3 Library included with Moodle 2.0
  Firefox 4.0		y		y
  Opera 11.10		y		y
  Safari 5.05		y		y
- IE 6               ?       ?
- IE 7               ?       ?
- IE 8               ?       ?
+ Chrome 11.0        y       y
+ IE 6               y       y
+ IE 7               y       y
+ IE 8               y       y
  IE 9               ?       ?
  
  ISSUES

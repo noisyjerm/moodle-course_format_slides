@@ -46,19 +46,20 @@ M.format_slides = {
 			function loadComplete(id, o, args) {
 				//sectionId, loadIndex
 				Y.detach("io:complete", loadComplete);
-				
+				var alreadyLoaded = _this._loadedTopics[args.loadIndex] ;
 			    var newSection = Y.Node.create(o.responseText);
 			    var sections = container.all("li.section");
 			    var lastNode = sections.item(sections.size() -1);
 			    
 			    // needed for ie6 and 7
 			    Y.on("available", function(){
-			    	newSection.setStyle("display", "none");
+			    	if(!alreadyLoaded)
+			    	    newSection.setStyle("display", "none");
 			    },args.sectionId);
 			    
 			  //  newSection.setStyle("display", "none");
 			    
-			    if(_this._loadedTopics[args.loadIndex] == true) { // exists so replace it
+			    if(alreadyLoaded) { // exists so replace it
 			    	var oldSection = Y.one(args.sectionId);
 			    	oldSection.replace(newSection);
 			    } else { // section is new so insert or append it
