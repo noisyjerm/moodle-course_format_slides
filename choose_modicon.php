@@ -23,7 +23,7 @@ $activity = $DB->get_record('course_modules', array('id' => $activity_id), '*', 
 $course = $DB->get_record('course', array('id' => $activity->course), '*', MUST_EXIST);
 
 // require_login($course);
-$context = get_context_instance(CONTEXT_COURSE, $course->id);
+$context = get_context_instance(CONTEXT_MODULE, $activity->id);
 require_capability('moodle/course:update', $context);
 
 $imageoptions = array('maxfiles' => 2, 'accepted_types' => array('image'), 'maxbytes' => 204800);
@@ -37,13 +37,12 @@ if(empty($entry->id)){
 }
 
 $draftitemid = file_get_submitted_draft_itemid('iconfile');
-file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'activity', $activity_id, $imageoptions);
+file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'activity_icon', $activity_id, $imageoptions);
 $entry->iconfile = $draftitemid;
 $entry->module = $activity_id;
 
 $mform = new chooseicon_form(null, array('imageoptions'=>$imageoptions));
 $mform->set_data($entry); // set current value
-
 
 /// If data submitted, then process and store.
 if ($mform->is_cancelled()){
@@ -54,11 +53,11 @@ if ($mform->is_cancelled()){
 	if (empty($data->usedefaulticon)) {
         // add the record
         $fileid = file_get_submitted_draft_itemid('iconfile');
-        file_save_draft_area_files($data->iconfile, $context->id, 'format_slides', 'activity', $activity_id, $imageoptions);
+        file_save_draft_area_files($data->iconfile, $context->id, 'format_slides', 'activity_icon', $activity_id, $imageoptions);
         // I would have thought file_postupdate_standard_filemanager would be better??
-        //$entry = file_postupdate_standard_filemanager($entry, 'iconfile', $imageoptions, $context, 'format_slides', 'activity', $fileid);
+        //$entry = file_postupdate_standard_filemanager($entry, 'iconfile', $imageoptions, $context, 'format_slides', 'activity_icon', $fileid);
         $fs = get_file_storage();
-        $files = $fs->get_area_files($context->id, 'format_slides', 'activity', $activity_id, null, false);
+        $files = $fs->get_area_files($context->id, 'format_slides', 'activity_icon', $activity_id, null, false);
         
         echo count($files) . " files<br/>";
         $count = 1;

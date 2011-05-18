@@ -92,8 +92,15 @@ class restore_format_slides_plugin extends restore_format_plugin {
         $data->course_id = $this->task->get_courseid();
         $data->activity_id = $this->task->get_moduleid();
 
-        $DB->insert_record('format_slides_modicons', $data);
-
+        $newid = $DB->insert_record('format_slides_modicons', $data);
+        $this->set_mapping('modicons', $oldid, $newid);
+        
         // No need to annotate anything here
     }
+    
+    protected function after_execute() {
+        // Add slides course format custom activity/module icons
+        $this->add_related_files('format_slides', 'activity_icon', "activity_id");
+    }
+    
 }

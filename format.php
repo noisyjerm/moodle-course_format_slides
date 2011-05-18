@@ -99,7 +99,7 @@ echo "<style type='text/css'>\n";
 	// backgrounds
 	foreach($sections as $section){
 		 $topic = $topics_info[$section->id];
-		 $bg_image = $CFG->wwwroot."/pluginfile.php/" .$context->id . "/format_slides/section/" . $section->id . "/" . $topic->summaryimage;
+		 $bg_image = $CFG->wwwroot."/pluginfile.php/" .$context->id . "/course/section/" . $section->id . "/" . $topic->summaryimage;
 		 $bg_pos = isset($topic->bg_position) ? $topic->bg_position : "top left";
 		 $height = isset($topic->height) ? $topic->height ."px": "auto";
 		 
@@ -114,8 +114,9 @@ echo "<style type='text/css'>\n";
 	
 	// custom icons
 	foreach($custom_icons as $icon){
-		$icon_up   = $CFG->wwwroot."/pluginfile.php/" .$context->id . "/format_slides/activity/" . $icon->activity_id . "/" . $icon->icon_up;
-		$icon_over = $CFG->wwwroot."/pluginfile.php/" .$context->id . "/format_slides/activity/" . $icon->activity_id . "/" . $icon->icon_over;
+		$mod_ctx = get_context_instance(CONTEXT_MODULE, $icon->activity_id); // not the best place as it creates more db calls
+		$icon_up   = $CFG->wwwroot."/pluginfile.php/" . $mod_ctx->id . "/format_slides/activity_icon/" . $icon->activity_id . "/" . $icon->icon_up;
+		$icon_over = $CFG->wwwroot."/pluginfile.php/" . $mod_ctx->id . "/format_slides/activity_icon/" . $icon->activity_id . "/" . $icon->icon_over;
 		$padding = "5px 0 " .($icon->icon_h-21) . "px ". ($icon->icon_w-16)."px";	// 21 comes from padding=5 + imgHeight=16
 	    $mod_item = "li#module-" . $icon->activity_id;
 	    

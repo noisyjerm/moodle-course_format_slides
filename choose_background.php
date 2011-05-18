@@ -29,7 +29,7 @@ $imageoptions = array('maxfiles' => 1, 'accepted_types' => array('image'));
 $entry = $DB->get_record('format_slides', array('topic_id'=>$section_id, 'course_id'=>$course->id));
 
 $draftitemid = file_get_submitted_draft_itemid('summaryimage');
-file_prepare_draft_area($draftitemid, $context->id, 'format_slides', 'section', $section_id, $imageoptions);
+file_prepare_draft_area($draftitemid, $context->id, 'course', 'section', $section_id, $imageoptions);
 $entry->summaryimage = $draftitemid;
 $entry->topic = $section_id;
 
@@ -44,9 +44,9 @@ if ($mform->is_cancelled()){
 
 } else if ($data = $mform->get_data()) {
     $fileid = file_get_submitted_draft_itemid('summaryimage');
-    file_save_draft_area_files($fileid, $context->id, 'format_slides', 'section', $section_id, $imageoptions);
+    file_save_draft_area_files($fileid, $context->id, 'course', 'section', $section_id, $imageoptions);
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'format_slides', 'section', $section_id, null, false);
+    $files = $fs->get_area_files($context->id, 'course', 'section', $section_id, null, false);
     
     $first_file = current($files);
     $entry->summaryimage = $first_file !== false ? $first_file->get_filename() : null;

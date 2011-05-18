@@ -58,8 +58,11 @@ class backup_format_slides_plugin extends backup_format_plugin {
         // set source to populate the data
         $topic->set_source_table('format_slides', array('topic_id' => backup::VAR_PARENTID));
 
-        // don't need to annotate ids nor files
-
+        // don't need to annotate ids i don't think
+        
+        // no need to annotate files here because they are kept in course/section
+        // and backed up by the course backup process
+        
         return $plugin;
     }
 
@@ -79,7 +82,7 @@ class backup_format_slides_plugin extends backup_format_plugin {
 
         // Now create the format own structures
         $modicons = new backup_nested_element('modicons', array('id'), array(
-            'icon_up', 'icon_over', 'icon_h', 'icon_w'));
+            'activity_id', 'mod_name', 'icon_up', 'icon_over', 'icon_h', 'icon_w'));
         
         // Now the own format tree
         $pluginwrapper->add_child($modicons);
@@ -87,7 +90,8 @@ class backup_format_slides_plugin extends backup_format_plugin {
         // set source to populate the data
         $modicons->set_source_table('format_slides_modicons', array('activity_id' => backup::VAR_PARENTID));
 
-        // don't need to annotate ids nor files
+        // files
+        $modicons->annotate_files('format_slides', 'activity_icon', 'activity_id');
 
         return $plugin;
     }
