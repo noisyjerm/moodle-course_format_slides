@@ -157,7 +157,8 @@ M.format_slides = {
 		    
 		    // outline links
 		    if(e.currentTarget.hasClass("outline-link")) {
-		    	var sectionPos = e.currentTarget.ancestor("li").get("id").replace("topiclink", "");
+		    	// var sectionPos = e.currentTarget.ancestor("li").get("id").replace("topiclink", "");
+		    	 var sectionPos = Y.all("#section-outline a").indexOf(e.currentTarget);
 			    newVisibleTopic = Y.all("li.section").item(parseInt(sectionPos)+1);
 		    }
 		    
@@ -243,7 +244,7 @@ M.format_slides = {
     reorderTopicsFinished : function(e){
     	_this.Y.use('node', function(Y) {
 	    	Y.one("#movetopic_instructions").remove(true);
-	    	var topics = Y.all("ul.topics-nav li.num").removeClass('move');
+	    	var topics = Y.all("ul.topics-nav li.topic").removeClass('move');
 	    	topics.each(function(i){
     			var num = topics.indexOf(this);
     			this.setContent(num + 1);
@@ -256,17 +257,17 @@ M.format_slides = {
     	_this = this;
     	var cfg = {
 				container: '#steps',
-				nodes: 'li.num.move',
+				nodes: 'li.topic.move',
 				opacity: '.5'
 			}
     	this.Y.use('node', 'event', function(Y){
     		// make dragable
     		if(!Y.one("#movetopic_instructions")) {
-	    		var instructions = Y.Node.create("<div id='movetopic_instructions'>" + _this._strings.instructionsForMoving + "</div>");
-	    		var button = Y.Node.create("<button name='done' value='done'>Done</button>");
+	    		var instructions = Y.Node.create("<div id='movetopic_instructions'>" + _this._strings.instructionsForMoving + " </div>");
+	    		var button = Y.Node.create("<button name='done' value='done'>" + _this._strings.done + "</button>");
 	    		instructions.append(button);
 	    		Y.all("ul.topics-nav").insert(instructions,"after");
-	    		var topics = Y.all("ul.topics-nav li.num").addClass('move');
+	    		var topics = Y.all("ul.topics-nav li.topic").addClass('move');
 	    		Y.Event.attach('click', _this.reorderTopicsFinished, button);
     		}
     		topics.each(function(){
@@ -332,6 +333,7 @@ M.format_slides = {
 			    if(responseData.success) {
 			    	_this.loadTopics(args.sectionId);
 			        Y.all("#steps li.num").item(parseInt(args.sectionId)).toggleClass("hidden");
+			        Y.all("#section-outline li").item(parseInt(args.sectionId)).toggleClass("hidden");
 			    }
 			    e.currentTarget.removeClass("working");
 			    
@@ -369,12 +371,15 @@ M.format_slides = {
 			    
 			    var responseData = Y.JSON.parse(o.responseText);
 			    var navItem = Y.all("#steps li").removeClass("highlight").item(_this._currentTopicNum);
+			    Y.all("#section-outline li").removeClass("highlight");
+			    
 			    if(responseData.success){
 			    	_this.loadTopics(args.sectionId);
 			    	
 			    	Y.all("li.section").removeClass("current");
 			    	if(responseData.reason == "marked") {
 			    	    navItem.addClass("highlight");
+			    	    Y.all("#section-outline li").item(_this._currentTopicNum-1).addClass("highlight");
 			    	}
 			    }
 			  //  e.currentTarget.one("img").set("src", imgSrc);
@@ -501,7 +506,7 @@ M.format_slides = {
 		        });
 	
 		        // Set up the Drop targets
-		        var dropAreas = Y.all("#steps li.jump-to.num");
+		        var dropAreas = Y.all("#steps li.jump-to.topic");
 			    var listItems = Y.all("li.activity");
 		        listItems.each(function(v,k){
 		    	   var dt = new Y.DD.Drop({
@@ -522,18 +527,18 @@ M.format_slides = {
 		    var sortableTopics = new Y.Sortable({
 				container: '#steps',
 				opacity: '.5',
-				nodes  : 'li.num',
+				nodes  : 'li.topic',
 				invalid : ':not(.move)'
 			});
 			
 			sortableTopics.delegate.dd.on('drag:start', function(e) {
-				startIndex = Y.all('li.num.move').indexOf(this.get('node'));
+				startIndex = Y.all('li.topic.move').indexOf(this.get('node'));
 			});
 			
 			sortableTopics.delegate.dd.on('drag:end', function(e) {
 				// call move ajax
 				var section = this.get('node').getAttribute('rel').replace("section-","");
-				var moveBy =  Y.all('li.num.move').indexOf(this.get('node')) - startIndex;
+				var moveBy =  Y.all('li.topic.move').indexOf(this.get('node')) - startIndex;
 				Y.use('io', function(Y){
 					var query = "action=move" + "&" +
 						        "move=" + moveBy + "&" +
@@ -545,8 +550,8 @@ M.format_slides = {
 					    var responseData = Y.JSON.parse(o.responseText);
 					    var success = responseData.success;
 					    if(!success) {
-					    	alert("fail - reverse the move");
-					    	
+					    	// alert("fail - reverse the move");
+					    	Y.log("Section not moved", 'warn', 'format_slides');
 					    } else {
 					    	// move the section lis
 					    	var movedSection = Y.one("#section-"+section);

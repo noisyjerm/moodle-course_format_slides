@@ -48,7 +48,7 @@ $string['height_error'] = 'Enter numbers only';
 
 
 
-
+$string['done'] = 'Done';
 $string['outline'] = "Outline";
 $string['intro'] = "Intro";
 $string['previous'] = "Previous";

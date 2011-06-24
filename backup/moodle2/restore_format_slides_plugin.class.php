@@ -81,6 +81,7 @@ class restore_format_slides_plugin extends restore_format_plugin {
 
         $data = (object)$data;
         $oldid = $data->id;
+        // $oldActivityId = $data->activity_id;
 
         // We only process this information if the course we are restoring to
         // has 'slides' format (target format can change depending of restore options)
@@ -95,12 +96,23 @@ class restore_format_slides_plugin extends restore_format_plugin {
         $newid = $DB->insert_record('format_slides_modicons', $data);
         $this->set_mapping('modicons', $oldid, $newid);
         
+        /*        
+        $restoreid =  $this->task->get_restoreid();
+         $record = array(
+            'backupid' => $restoreid
+         );
+         
+         $dbrec = $DB->get_record('backup_ids_temp', $record);
+         */
+        
         // No need to annotate anything here
     }
     
-    protected function after_execute() {
+    protected function after_execute_module() {
         // Add slides course format custom activity/module icons
-        $this->add_related_files('format_slides', 'activity_icon', "activity_id");
+         //$this->add_related_files('format_slides', 'activity_icon');
     }
+    
+    // protected function after_execute_section() { }
     
 }

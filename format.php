@@ -71,10 +71,6 @@ if ($editing) {
     $strmovedown = get_string('movedown');
 }
 
-// Print the Your progress icon if the track completion is enabled
-$completioninfo = new completion_info($course);
-$completioninfo->print_help_icon();
-
 $topics_info = $DB->get_records('format_slides', array('course_id'=>$course->id), '', 'topic_id, x_offset, y_offset, summaryimage, bg_position, height');
 $custom_icons = $DB->get_records("format_slides_modicons", array('course_id'=>$course->id));
 
@@ -117,7 +113,7 @@ echo "<style type='text/css'>\n";
 		$mod_ctx = get_context_instance(CONTEXT_MODULE, $icon->activity_id); // not the best place as it creates more db calls
 		$icon_up   = $CFG->wwwroot."/pluginfile.php/" . $mod_ctx->id . "/format_slides/activity_icon/" . $icon->activity_id . "/" . $icon->icon_up;
 		$icon_over = $CFG->wwwroot."/pluginfile.php/" . $mod_ctx->id . "/format_slides/activity_icon/" . $icon->activity_id . "/" . $icon->icon_over;
-		$padding = "5px 0 " .($icon->icon_h-21) . "px ". ($icon->icon_w-16)."px";	// 21 comes from padding=5 + imgHeight=16
+		$padding = "0 0 " .($icon->icon_h-16) . "px ". ($icon->icon_w-16)."px";	// 21 comes from padding=5 + imgHeight=16
 	    $mod_item = "li#module-" . $icon->activity_id;
 	    
 	    if(!empty($icon->icon_up)) {
@@ -139,14 +135,14 @@ if(!$sections[$displaysection]->visible && !has_capability('moodle/course:viewhi
 
 // Navigation
 echo "<ul class='topics-nav'>";
-    echo '<li class="prev" href="#" title="'.$str_prev.'">'.$str_prev.'</li>';
-    echo '<li href="#" class="next" title="'.$str_next.'">'.$str_next.'</li>';
+    echo "<li class='prev' title='$str_prev'><a href='#' title='$str_prev'>$str_prev</a></li>";
+    echo "<li class='next' title='$str_next'><a href='#' title='$str_next'>$str_next</a></li>";
 echo "</ul>" . "\n";
 
 echo "<ul id='steps' class=\"topics-nav\">";
     $linkClass = $displaysection===0 ? " current" : "";
-    echo '<li class="jump-to outline active" rel="section-outline" href="#" title="'.$str_outline.'">'.$str_outline.'</li>';
-    echo '<li class="jump-to num'. $linkClass . '" rel="section-0" href="#" title="'.$str_intro.'">'.$str_intro.'</li>';
+    echo '<li class="jump-to outline active" rel="section-outline" title="'.$str_outline.'"><a href="#" title="'.$title.'">'.$str_outline.'</a></li>';
+    echo '<li class="jump-to num'. $linkClass . '" rel="section-0" title="'.$str_intro.'"><a href="view.php&amp;topic=0" title="'.$title.'">'.$str_intro.'</a></li>';
 $section=0;
 while ($section++ < $course->numsections) {
     if (!empty($sections[$section])) {
@@ -165,12 +161,13 @@ while ($section++ < $course->numsections) {
 	$showsection = (has_capability('moodle/course:viewhiddensections', $context) or $thissection->visible or !$course->hiddensections);
 	if($showsection) {
 	    $title = isset($thissection->name) ? $thissection->name : $thissection->section;
-		$linkClass = "jump-to num";
+		$linkClass = "jump-to num topic";
+	    $link = 'view.php?id='.$course->id.'&amp;topic='.$section;
 		if($section == $displaysection) $linkClass .= " current";
 		if(!$thissection->visible) $linkClass .= " hidden";
 		if($section == $course->marker) $linkClass .= " highlight";
 		
-	    echo '<li class="'.$linkClass.'" rel="section-' . $section . '" href="#" title="' . $title . '">' . $section . '</li>';
+	    echo "<li class='$linkClass' rel='section-$section' title='$title'><a href='$link' title='$title'>$section</a></li>";
 	}// $section ++;
 }
 echo "</ul>" . "\n";
@@ -210,5 +207,6 @@ echo "</ul>\n";
 
 $strs = new stdClass;
 $strs->instructionsForMoving = get_string('instructionsformoving', 'format_slides');
+$strs->done = get_string('done', 'format_slides');
 $args = array(sesskey(), $course->id, $PAGE->user_is_editing(), $strs);
 slides_initialise_topicsnavigator($PAGE, $args);

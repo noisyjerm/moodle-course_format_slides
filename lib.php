@@ -23,6 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->libdir.'/filelib.php');
+//require_once($CFG->libdir.'/modinfolib.php');
 
 /**
  * Indicates this format uses sections.
@@ -471,21 +472,31 @@ function slides_make_outline($course,$topics_info,$sections,$editing){
 	echo '<li id="section--1" class="section outline clearfix" >';
 	echo "<ul id='section-outline'>\n";
 	
-	
+	// check activity completion and add to array where section id is key
+	$completionbysection = array();
+    $completioninfo = new completion_info($course);
+    $activitieswithcompletion = $completioninfo->get_activities();
+    //  unknown > 0 = incomplete < complete
+	foreach($activitieswithcompletion as $activity){
+		$completionbysection[$activity->section] = "complete";
+		$activity_status_data = $completioninfo->get_data($activity->id, $USER->id);
+	 	if($activity_status_data->completionstate < 0) {
+	 		$completionbysection[$activity->section] = "unknown";
+	 	} else if ($activity_status_data->completionstate === 0 && $completionbysection[$activity->section] != "unknown") {
+	 		$completionbysection[$activity->section] = "incomplete";
+	 	}
+	}
+
 	//sort by id
-	for($i=1; $i<=$course->numsections; $i++) {
+	for($i=0; $i<=$course->numsections; $i++) {
 		$section = $sections[$i];
-		$section_complete = "complete";
-		
-		foreach($complete_by_section[$section->id] as $activity_complete){
-			if($activity_complete == 0){
-				$section_complete = "incomplete";
-			}
-		}
+		$section_complete = isset($completionbysection[$section->id]) ? $completionbysection[$section->id] : "complete"; 
 		
 	    $sectionname = !empty($section->name) ? $section->name : "Topic " . $section->section;
 	    $style = "left:" . $topics_info[$section->id]->x_offset . "; top:" .$topics_info[$section->id]->y_offset;
 	    $css = $editing ? "$section_complete editing" : "$section_complete";
+	    $css .= $section->visible ? "" : " hidden";
+	    $css .= $course->marker == $i ? " highlight" : "";
 	    echo '<li class="'. $css . '" id="topiclink' . $section->id . '" style="' .$style . ';">';
 		echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section->section.'" title="'.$sectionname.'" class="outline-link">' .$sectionname;
 	    echo "</a> $complete</li>\n";
@@ -536,8 +547,20 @@ function format_slides_pluginfile($course, $cm, $context, $filearea, $args, $for
 }
 
 function format_slides_delete_course($courseid) {
-	echo "Fail - slides format delete not implemented";
-	debugging("Not yet implemented. format_slides tables will not be chnaged", DEBUG_ALL);
+    global $DB;
+
+    // 1 remove icon files
+     $fs = get_file_storage();
+     $custom_icons = $DB->get_records("format_slides_modicons", array('course_id'=>$courseid));
+     foreach($custom_icons as $icon){
+         $ctx = get_context_instance(CONTEXT_MODULE, $icon->activity_id);
+         $file1 = $fs->get_file($ctx->id, "format_slides", "activity_icon", 0, "/", $icon->icon_up); 
+         $file2 = $fs->get_file($ctx->id, "format_slides", "activity_icon", 0, "/", $icon->icon_over); 
+         if($file1) $file1->delete();
+         if($file2) $file2->delete();
+     }
+     
+    // 2 clear db
+     $DB->delete_records("format_slides_modicons", array("course_id"=>$courseid));
+     $DB->delete_records("format_slides", array("course_id"=>$courseid));
 }
-
-

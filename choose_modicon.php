@@ -19,8 +19,9 @@ $activity_id = required_param('module',PARAM_INT);    // Activity ID
 $activityname = optional_param('name', PARAM_RAW);
 
 $PAGE->set_url('/course/view.php', array('module'=>$activity_id));
-$activity = $DB->get_record('course_modules', array('id' => $activity_id), '*', MUST_EXIST);
+$activity = $DB->get_record('course_modules', array('id' => $activity_id), 'id, course, module', MUST_EXIST);
 $course = $DB->get_record('course', array('id' => $activity->course), '*', MUST_EXIST);
+// $mod = $DB->get_record('modules', array('id' => $activity->module), 'name', MUST_EXIST);
 
 // require_login($course);
 $context = get_context_instance(CONTEXT_MODULE, $activity->id);

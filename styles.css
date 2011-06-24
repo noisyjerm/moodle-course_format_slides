@@ -1,97 +1,104 @@
-/* same as topics */
-#page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FFF; border-color:#AAA; overflow:hidden; }
-#page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
-#page-content .course-content ul.topics li.section .left    { width:0; }
+#page-course-view-slides #page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FAFAFA; border-color:#AAA; overflow:hidden; }
+#page-course-view-slides #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
+#page-course-view-slides #page-content .course-content ul.topics li.section .left    { width:0; }
 
-#page-content .course-content ul.topics li.section.current {
-	border-color:#C00;
-}
+#page-course-view-slides #page-content .course-content ul.topics li.section.current { border-color:#C00; }
 
 
 /* slides two col */
-#page-content .course-content ul.topics li.section.cols-2 div.summary { float:left; width:220px; }
-/*#page-content .course-content ul.topics li.section.cols-2 .content { margin: 0 220px 0 0; padding:10px; } */
-li.section.cols-2 div.content ul.section.img-text {
+#page-course-view-slides #page-content .course-content ul.topics li.section.cols-2 div.summary { float:left; width:220px; }
+
+#page-course-view-slides li.section.cols-2 div.content ul.section.img-text {
     /* having to override current theme. */
     margin-left:230px !important;
 }
 
-.left.side {
+#page-course-view-slides .left.side {
 	width:0;
 }
 
-div.left.summary img.icon.edit { float: right; margin:10px 0; }
-.mod-intro { padding-left:20px; }
-.mod-intro p { margin:0; }
-.activity.label .mod-intro { padding-left:0; }
-.activity.label .mod-intro p { margin:0 0 1em; }
+#page-course-view-slides div.left.summary img.icon.edit { float: right; margin:10px 0; }
+#page-course-view-slides .mod-intro { padding-left:20px; }
+#page-course-view-slides .mod-intro p { margin:0; }
+#page-course-view-slides .activity.label .mod-intro { padding-left:0; }
+#page-course-view-slides .activity.label .mod-intro p { margin:0 0 1em; }
 
 
-.course-content ul.topics li.section .right.controls {
+#page-course-view-slides .course-content ul.topics li.section .right.controls {
 	float:right;
 	padding:9px;
 	width:auto;
 }
 
-.course-content ul.topics li.section .right.controls img {
+#page-course-view-slides .course-content ul.topics li.section .right.controls img {
 	vertical-align:middle;
 }
 
-.topics-nav {
-	display:block;
+#page-course-view-slides .activity .instancename {
+	font-weight:bold;
+	color:#333;
+}
+
+#page-course-view-slides .topics-nav {
+	display:none;
 	float:right;
 	margin:0;
 }
+#page-course-view-slides.jsenabled .topics-nav { display: block; }
 
-.topics-nav li,
-#steps.topics-nav {
+#page-course-view-slides .topics-nav li,
+#page-course-view-slides #steps.topics-nav {
 	display:inline;
 	margin:0;
 	float:none;
 }
 
-.topics-nav li {
-	background-color:#EEE;
-	color:#999;
+#page-course-view-slides .topics-nav li {
+	background-color:#CCC;
 	margin:1px;
 	padding:2px 3px
 }
 
-.topics-nav li.active {
+#page-course-view-slides.jsenabled  .topics-nav li { background-color:#EEE; }
+
+#page-course-view-slides .topics-nav li.active {
 	background-color:#CCC;
 	color:#000;
 	cursor:pointer;
 }
 
-.topics-nav li.move {
+#page-course-view-slides .topics-nav li.current { background-color:#FC0; }
+
+#page-course-view-slides .topics-nav li.move {
 	cursor:move;
 	display:block;
 }
 
-.topics-nav li.move:hover {
+#page-course-view-slides .topics-nav li.move:hover {
 	background:#E6CC66 url(../course/format/slides/pix/updown.gif) no-repeat right;
 }
 
-.topics-nav li.current {
-	background-color:#FC0;
-	color:#000;
-}
+#page-course-view-slides .topics-nav li a { color: #000; }
+#page-course-view-slides.jsenabled .topics-nav li a { color:#999; }
+#page-course-view-slides .topics-nav li.active a { color: #000; }
+#page-course-view-slides .topics-nav li.current a {	color:#000; }
 
-.topics-nav li.highlight {
+
+#page-course-view-slides .topics-nav li.highlight a {
 	font-weight:bold;
 	color:#F00;
 }
 
-.topics-nav li.hidden {
+#page-course-view-slides .topics-nav li.hidden a {
 	color:#FFF;
 }
 
 /* --------------- */
 
-ul#section-outline {
+#page-course-view-slides ul#section-outline {
 	list-style:none;
 }
-ul#section-outline li {
+#page-course-view-slides ul#section-outline li {
 	list-style:none;
 	padding:3px;
 	border:1px solid #999;
@@ -103,59 +110,42 @@ ul#section-outline li {
 	float:left;
 }
 
-ul#section-outline li.complete {
-	cursor:move;
-	background: #DDD url(../course/format/slides/pix/completion-auto-y.gif) no-repeat right;
-}
+#page-course-view-slides ul#section-outline li.highlight a { color:#C00; }
+#page-course-view-slides ul#section-outline li.complete { background: #DDD url(../course/format/slides/pix/completion-auto-y.gif) no-repeat right; }
+#page-course-view-slides ul#section-outline li.hidden   { display:none;}
+#page-course-view-slides.jsenabled ul#section-outline li.editing  { cursor:move; background: #DDD url(../course/format/slides/pix/4way.gif) no-repeat right; }
+#page-course-view-slides ul#section-outline li.hidden.editing { display:block; border-style:dashed; opacity:0.5; filter:[opacity(50)]; }
 
-ul#section-outline li.editing {
-	cursor:move;
-	background: #DDD url(../course/format/slides/pix/4way.gif) no-repeat right;
-}
-
-a.working {
+#page-course-view-slides a.working {
 	cursor:progress;
 }
 
-li.activity.moving,
-li.resource.moving {
+#page-course-view-slides li.activity.moving,
+#page-course-view-slides li.resource.moving {
 	opacity:0.3;
 	filter:[opacity(30)];
 }
 
-
-ul.section li.movehere {
+#page-course-view-slides ul.section li.movehere {
 	background: #DDD url(../course/format/slides/pix/leftright.gif) no-repeat left;
 }
 
-ul.topics {
-	/*overflow:hidden;*/
-}
-
-
-ul.topics li.section {
+#page-course-view-slides ul.topics li.section {
 	position:relative;
 	border:1px solid #CCC;
 	-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;
 }
-/*
-ul.section.over.yui3-dd-drop-over {
-	border-bottom:1px dashed red;
-}
 
-
-li.activity.yui3-dd-drop-over {
-	border-top:1px dashed red;
-}
-*/
-#section--1 {
-	height:300px;
-	display:none;
-}
+#page-course-view-slides #section--1 { height:300px; }
+#page-course-view-slides.jsenabled #section--1 { display:none; }
 
 /* FORM STYLES */
 
 .mform .pos-gp .fitem fieldset.felement {
 	margin-left:16%;
 	height:0.5em;
+}
+
+#page-course-view-slides #completionprogressid {
+	margin:10px -15px 0 0;
 }

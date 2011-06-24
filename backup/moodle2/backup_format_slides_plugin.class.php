@@ -91,7 +91,7 @@ class backup_format_slides_plugin extends backup_format_plugin {
         $modicons->set_source_table('format_slides_modicons', array('activity_id' => backup::VAR_PARENTID));
 
         // files
-        $modicons->annotate_files('format_slides', 'activity_icon', 'activity_id');
+        $modicons->annotate_files('format_slides', 'activity_icon');
 
         return $plugin;
     }

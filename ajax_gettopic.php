@@ -85,6 +85,19 @@ echo '<li id="section-'.$section.'" class="section main clearfix ui-widget-conte
       echo '</div>' . "\n";
 	  
       
+      // Match topics format behaviour where help is hidden if there is no completion activities
+      // But do this per section.
+      $completioninfo = new completion_info($course);
+      $activitieswithcompletion = $completioninfo->get_activities();
+      $hasCompletionActivites = false;
+      foreach($activitieswithcompletion as $activity){
+      	if($activity->section == $thissection->id){
+        	$hasCompletionActivites = true;
+        }
+      }
+      if ($hasCompletionActivites)
+          $completioninfo->print_help_icon();
+      
      /*
       * CONTENT
       */
