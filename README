@@ -27,7 +27,17 @@ Alternative display of Moodle course. Uses YUI3 Library included with Moodle 2.0
  IE 9               ?       ?
  
  ISSUES
- Does not work with Moodle debugging set to Developer.
+ Does not work with Moodle debugging set to Developer - Javascript errors.
+ Custom activity icons not restored during backup and restore
+ Backgrounds are temporarily mixed up after re-ordering topics
+ Using Topic buttons to navigate as soon as section is loaded and button becomes active causes error due to DOM not yet updated - need to wait about a second.
+ 
  
  TODO
  See format.php
+ 
+ LINKS
+ User docs: http://docs.moodle.org/20/en/course/view/slides
+ Discussion: http://moodle.org/mod/forum/discuss.php?d=174048
+ Moodle plugins db: http://moodle.org/mod/data/view.php?d=13&rid=4756
+  

@@ -1,5 +1,5 @@
 #page-course-view-slides #page-content .course-content ul.topics li.section          { list-style: none;margin:5px 0 0 0;padding:0; background-color:#FAFAFA; border-color:#AAA; overflow:hidden; }
-#page-course-view-slides #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; }
+#page-course-view-slides #page-content .course-content ul.topics li.section .content { margin: 0 15px 0 0; padding:10px; background-color:transparent; }
 #page-course-view-slides #page-content .course-content ul.topics li.section .left    { width:0; }
 
 #page-course-view-slides #page-content .course-content ul.topics li.section.current { border-color:#C00; }
