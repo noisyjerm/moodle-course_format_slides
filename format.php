@@ -141,8 +141,8 @@ echo "</ul>" . "\n";
 
 echo "<ul id='steps' class=\"topics-nav\">";
     $linkClass = $displaysection===0 ? " current" : "";
-    echo '<li class="jump-to outline active" rel="section-outline" title="'.$str_outline.'"><a href="#" title="'.$title.'">'.$str_outline.'</a></li>';
-    echo '<li class="jump-to num'. $linkClass . '" rel="section-0" title="'.$str_intro.'"><a href="view.php&amp;topic=0" title="'.$title.'">'.$str_intro.'</a></li>';
+    echo '<li class="jump-to outline active" rel="section-outline" title="'.$str_outline.'"><a href="#" title="'.$str_outline.'">'.$str_outline.'</a></li>';
+    echo '<li class="jump-to num'. $linkClass . '" rel="section-0" title="'.$str_intro.'"><a href="view.php&amp;topic=0" title="'.$str_intro.'">'.$str_intro.'</a></li>';
 $section=0;
 while ($section++ < $course->numsections) {
     if (!empty($sections[$section])) {

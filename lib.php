@@ -87,11 +87,9 @@ function callback_slides_get_section_name($course, $section) {
  */
 function callback_slides_ajax_support() {
     $ajaxsupport = new stdClass();
-    $ajaxsupport->capable = true;
+    $ajaxsupport->capable = false;
     $ajaxsupport->testedbrowsers = array('MSIE' => 6.0, 'Gecko' => 20061111, 'Safari' => 531, 'Chrome' => 6.0);
-  // return $ajaxsupport;
-   // use own ajax here
-   return false;
+   return $ajaxsupport;
 }
 
 function slides_initialise_topicsnavigator(moodle_page $page, $args) {
@@ -499,7 +497,9 @@ function slides_make_outline($course,$topics_info,$sections,$editing){
 	    $css .= $course->marker == $i ? " highlight" : "";
 	    echo '<li class="'. $css . '" id="topiclink' . $section->id . '" style="' .$style . ';">';
 		echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section->section.'" title="'.$sectionname.'" class="outline-link">' .$sectionname;
-	    echo "</a> $complete</li>\n";
+	  //  echo "</a> $complete</li>\n";
+	  // TODO: Fix complete
+	    echo "</a></li>\n";
 	}
 	
 	echo "</ul>\n";

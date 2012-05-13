@@ -20,23 +20,33 @@ $id = required_param('id', PARAM_INT);
 $topic = optional_param('topic', 0, PARAM_INT);
 $mode = optional_param('mode', 0, PARAM_INT);
 
+$PAGE->set_context(context_course::instance($id));
+
 $isediting = $PAGE->user_is_editing() || $mode;
 $section = isset($section) ? $section : $topic;
 
 $streditsummary  = get_string('editsummary');
 $streditsettings  = get_string('editsettings', 'format_slides');
+if ($isediting) {
+    $strtopichide = get_string('hidetopicfromothers');
+    $strtopicshow = get_string('showtopicfromothers');
+    $strmarkthistopic = get_string('markthistopic');
+    $strmarkedthistopic = get_string('markedthistopic');
+    $strmoveup   = get_string('moveup');
+    $strmovedown = get_string('movedown');
+}
 
-if(!$course) {
+if(!isset($course)) {
 	if (! ($course = $DB->get_record('course', array('id'=>$id)))) {
 	    print_error('invalidcourseid', 'error');
 	}
 }
-if(!$context) $context = get_context_instance(CONTEXT_COURSE, $course->id);
+if(!isset($context)) $context = get_context_instance(CONTEXT_COURSE, $course->id);
 
 // require_capability('moodle/course:view', $context);
 require_login() ;
 
-if(!$sections) {
+if(!isset($sections)) {
 	$thissection = $DB->get_record('course_sections', array('course'=>$course->id, 'section'=>$topic));
 } else {
 	$thissection = $sections[$section];
